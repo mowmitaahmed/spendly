@@ -101,4 +101,60 @@
     </div>
 </section>
 
+<div id="how-it-works" class="video-modal" aria-hidden="true">
+    <div class="video-modal-backdrop" data-close-modal></div>
+    <div class="video-modal-dialog" role="dialog" aria-modal="true" aria-label="How Spendly works">
+        <button type="button" class="video-modal-close" data-close-modal aria-label="Close video">&times;</button>
+        <div class="video-modal-frame">
+            <iframe
+                id="how-it-works-video"
+                src=""
+                title="How Spendly works"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function () {
+        const VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0";
+        const iframe = document.getElementById("how-it-works-video");
+        const modal = document.getElementById("how-it-works");
+        const openBtn = document.querySelector(".hero-actions .btn-secondary");
+
+        function openModal(e) {
+            if (e) e.preventDefault();
+            iframe.src = VIDEO_URL;
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+            iframe.src = "";          // stops the video
+            document.body.style.overflow = "";
+        }
+
+        if (openBtn) {
+            openBtn.addEventListener("click", openModal);
+        }
+
+        modal.querySelectorAll("[data-close-modal]").forEach(function (el) {
+            el.addEventListener("click", closeModal);
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && modal.classList.contains("is-open")) {
+                closeModal();
+            }
+        });
+    })();
+</script>
 {% endblock %}
